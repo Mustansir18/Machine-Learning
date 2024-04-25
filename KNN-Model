@@ -1,0 +1,29 @@
+import numpy as np
+import csv
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
+
+X = []
+Y = []
+
+# Replace 'path_to_your_csv_file' with the actual path to your CSV file in Google Colab
+file_path = '/content/drive/iris_data.csv'
+
+with open(file_path) as f:
+    data = csv.reader(f)
+    for r in data:
+        X.append(np.array(r[0:4], dtype=np.float_))
+        Y.append(r[4])
+
+X = np.asarray(X)
+Y = np.asarray(Y)
+
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.20)
+
+clf = KNeighborsClassifier(n_neighbors=5)
+clf.fit(X_train, Y_train)
+pre = clf.predict(X_test)
+
+a = accuracy_score(Y_test, pre)
+print("Accuracy=", a)
